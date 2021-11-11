@@ -126,6 +126,8 @@ def main():
                         help='',
                         default='capture.pcap')
     args = parser.parse_args()
+    if args.scan is False and args.address is None and args.name is None:
+        parser.error('Either scan, address or name argument must be given.')
 
     sniffer = setup(args.capture_file)
 
