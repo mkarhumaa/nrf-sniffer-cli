@@ -108,28 +108,31 @@ def main():
                         action='store_true',
                         required=False,
                         dest='scan',
-                        help='Scan for devices.')
+                        help='Scans for devices and outputs list of address/name pairs of advertising Bluetooth LE devices.')
     parser.add_argument('--address', '-a',
                         type=str,
                         required=False,
                         dest='address',
-                        help='')
+                        help='Start sniffing the Bluetooth LE device by address.')
     parser.add_argument('--name', '-n',
                         type=str,
                         required=False,
                         dest='name',
-                        help='')
+                        help='Start sniffing the Bluetooth LE device by name.')
     parser.add_argument('--capture-file', '-c',
                         type=str,
                         required=False,
                         dest='capture_file',
-                        help='',
+                        help='Name of the file where the sniffer writes the captured Bluetooth LE packets. The file can be opened with Wireshark.',
                         default='capture.pcap')
     args = parser.parse_args()
     if args.scan is False and args.address is None and args.name is None:
         parser.error('Either scan, address or name argument must be given.')
 
     sniffer = setup(args.capture_file)
+
+    if not sniffer:
+        return
 
     if args.scan:
         devices = scan(sniffer, 5)
