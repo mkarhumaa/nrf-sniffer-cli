@@ -73,7 +73,7 @@ class DeviceList(Notifications.Notifier):
                     existingDevice.name = newDevice.name
                     updated = True
 
-                if (existingDevice.RSSI < (newDevice.RSSI - 5)) or (existingDevice.RSSI > (newDevice.RSSI+2)):
+                if (newDevice.RSSI != 0 and (existingDevice.RSSI < (newDevice.RSSI - 5)) or (existingDevice.RSSI > (newDevice.RSSI+2))):
                     existingDevice.RSSI = newDevice.RSSI
                     updated = True
 

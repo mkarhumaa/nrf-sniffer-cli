@@ -244,6 +244,7 @@ class SnifferCollector(Notifications.Notifier):
 
         if self.state == STATE_FOLLOWING:
             logging.info("Stopped sniffing device")
+
         self._setState(STATE_SCANNING)
         self._packetReader.sendScan(findScanRsp, findAux, scanCoded)
         self._packetReader.sendTK([0])

@@ -66,6 +66,7 @@ REQ_VERSION               = 0x1B
 RESP_VERSION              = 0x1C
 REQ_TIMESTAMP             = 0x1D
 RESP_TIMESTAMP            = 0x1E
+SET_IDENTITY_RESOLVING_KEY= 0x1F
 GO_IDLE                   = 0xFE
 
 PACKET_TYPE_UNKNOWN       = 0x00
