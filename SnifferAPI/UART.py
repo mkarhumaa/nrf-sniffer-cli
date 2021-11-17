@@ -45,6 +45,9 @@ from . import Exceptions
 from . import Packet
 from . import Filelock
 
+import os
+if os.name == "posix":
+    import termios
 
 SNIFFER_OLD_DEFAULT_BAUDRATE = 460800
 # Baudrates that should be tried (add more if required)
@@ -58,6 +61,9 @@ def find_sniffer(write_data=False):
     for port in [x.device for x in open_ports]:
         for rate in SNIFFER_BAUDRATES:
             reader = None
+            l_errors = [serial.SerialException, ValueError, Exceptions.LockedException]
+            if os.name == 'posix':
+                l_errors.append(termios.error)
             try:
                 reader = Packet.PacketReader(portnum=port, baudrate=rate)
                 try:
@@ -72,7 +78,7 @@ def find_sniffer(write_data=False):
                     break
                 except (Exceptions.SnifferTimeout, Exceptions.UARTPacketError):
                     pass
-            except (serial.SerialException, ValueError, Exceptions.LockedException):
+            except tuple(l_errors):
                 continue
             finally:
                 if reader is not None:
@@ -112,7 +118,8 @@ class Uart:
             logging.info('Opening serial port {}'.format(portnum))
 
             self.portnum = portnum
-            Filelock.lock(portnum)
+            if self.portnum:
+                Filelock.lock(portnum)
 
             self.ser = serial.Serial(
                 port=portnum,

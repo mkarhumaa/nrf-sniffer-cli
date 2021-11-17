@@ -79,6 +79,7 @@ class PacketReader(Notifications.Notifier):
         self.lastReceivedPacketCounter = 0
         self.lastReceivedPacket = None
         self.lastReceivedTimestampPacket = None
+        self.supportedProtocolVersion = PROTOVER_V3
 
     def setup(self):
         pass
@@ -278,6 +279,11 @@ class PacketReader(Notifications.Notifier):
         ltk = self.getBytes(ltk, 16)
         self.sendPacket(SET_SC_LONG_TERM_KEY, ltk)
         logging.info("Sent SC LTK to sniffer: " + str(ltk))
+
+    def sendIRK(self, irk):
+        irk = self.getBytes(irk, 16)
+        self.sendPacket(SET_IDENTITY_RESOLVING_KEY, irk)
+        logging.info("Sent IRK to sniffer: " + str(irk))
 
     def sendSwitchBaudRate(self, newBaudRate):
         self.sendPacket(SWITCH_BAUD_RATE_REQ, toLittleEndian(newBaudRate, 4))

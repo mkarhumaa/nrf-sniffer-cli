@@ -118,13 +118,16 @@ class Sniffer(threading.Thread, SnifferCollector.SnifferCollector):
 
     # Send Legacy Long Term Key (LTK) to the sniffer to use when decrypting encrypted communication.
     # Returns nothing.
-    def sendLegacyLTK(self, pk):
-        self._packetReader.sendLegacyLTK(pk)
+    def sendLegacyLTK(self, ltk):
+        self._packetReader.sendLegacyLTK(ltk)
 
     # Send LE Secure Connections (SC) Long Term Key (LTK) to the sniffer to use when decrypting encrypted communication.
     # Returns nothing.
-    def sendSCLTK(self, pk):
-        self._packetReader.sendSCLTK(pk)
+    def sendSCLTK(self, ltk):
+        self._packetReader.sendSCLTK(ltk)
+
+    def sendIRK(self, irk):
+        self._packetReader.sendIRK(irk)
 
     # Send a request for the sniffer version in the sniffer firmware.
     def getFirmwareVersion(self):
